@@ -1,0 +1,78 @@
+export const ahProducts = [
+  { name: 'AiLPHA大数据智能安全平台', category: '态势感知', keywords: ['态势感知', '安全运营平台', 'SOC', '大数据安全', 'AI安全'] },
+  { name: '明御综合日志审计', category: '审计', keywords: ['日志审计', '综合日志'] },
+  { name: '明御数据库审计', category: '数据安全', keywords: ['数据库审计', '数据库安全审计'] },
+  { name: '明御WEB应用防火墙', category: '应用安全', keywords: ['WAF', 'WEB应用防火墙', 'web应用防火墙'] },
+  { name: '明御防火墙', category: '边界安全', keywords: ['防火墙', '边界安全'] },
+  { name: '明御入侵检测/防御', category: '边界安全', keywords: ['IDS', 'IPS', '入侵检测', '入侵防御'] },
+  { name: '明御堡垒机', category: '运维安全', keywords: ['堡垒机', '运维堡垒机'] },
+  { name: '明御漏洞扫描', category: '漏扫', keywords: ['漏洞扫描', 'web漏洞扫描', '漏扫'] },
+  { name: '明御终端安全', category: '终端安全', keywords: ['终端安全', '终端DLP', 'EDR', '终端杀毒', '杀毒软件'] },
+  { name: 'AiLPHA数据安全管控平台', category: '数据安全', keywords: ['数据安全', '数据防泄漏', 'DLP', '数据分级分类'] },
+  { name: 'AiLPHA零信任', category: '零信任', keywords: ['零信任'] },
+  { name: '天池云安全', category: '云安全', keywords: ['云安全'] },
+  { name: '密盾密码服务', category: '密码应用', keywords: ['密码应用', '密评', 'SSL', 'IPSecVPN', 'VPN网关', '密码机'] },
+  { name: '安全运营服务MSS', category: '安全服务', keywords: ['安全运营', '安全运维', '安全服务', '网络安全运维', 'SOC'] },
+  { name: '等级保护测评服务', category: '等保测评', keywords: ['等保测评', '等级保护测评', '等级保护', '三级等保'] },
+]
+
+export const productCategories = [
+  { name: '等保测评', keywords: ['等保测评', '等级保护测评', '等级保护', '三级等保'] },
+  { name: '安全服务/运营', keywords: ['安全服务', '安全运营', '安全运维', '网络安全运维', '安全托管', 'MSS'] },
+  { name: '数据安全', keywords: ['数据安全', '数据库审计', '数据防泄漏', 'DLP', '数据分级分类'] },
+  { name: '态势感知/SOC', keywords: ['态势感知', '安全运营平台', 'SOC', '安全态势感知'] },
+  { name: '边界安全', keywords: ['防火墙', 'IDS', 'IPS', '入侵检测', '入侵防御', '网闸', '隔离网闸'] },
+  { name: '应用安全', keywords: ['WAF', 'web漏洞扫描', '应用安全', '代码审计'] },
+  { name: '终端安全', keywords: ['终端安全', 'EDR', '终端杀毒', '杀毒软件', '终端DLP'] },
+  { name: '运维安全', keywords: ['堡垒机', '运维堡垒机', '日志审计', '基线检查', '基线核查'] },
+  { name: '密码应用', keywords: ['密码应用', '密评', 'SSL', 'VPN', '密码机', '签名验签'] },
+  { name: '云安全', keywords: ['云安全'] },
+  { name: '零信任', keywords: ['零信任'] },
+  { name: '网络安全', keywords: ['网络安全', '网络及安全', '网络与信息安全', '信息系统安全'] },
+]
+
+export const competitorKeywords = [
+  { name: '天融信', alias: ['天融信', 'Topsec'] },
+  { name: '深信服', alias: ['深信服', 'Sangfor'] },
+  { name: '奇安信', alias: ['奇安信', 'Qi-Anxin'] },
+  { name: '启明星辰', alias: ['启明星辰', 'Venustech'] },
+  { name: '绿盟科技', alias: ['绿盟', 'NSFOCUS'] },
+  { name: '华为', alias: ['华为', 'Huawei'] },
+  { name: '新华三', alias: ['新华三', 'H3C'] },
+  { name: '中国电信', alias: ['天翼安全', '中国电信'] },
+  { name: '中国移动', alias: ['中移', '中国移动'] },
+  { name: '中国联通', alias: ['联通', '中国联通'] },
+  { name: '中国软件', alias: ['中软', '中国软件'] },
+]
+
+export const advantageKeywords = [
+  '态势感知',
+  '安全运营',
+  '数据安全',
+  '数据库审计',
+  'WAF',
+  '日志审计',
+  '堡垒机',
+  '漏洞扫描',
+  '等保测评',
+  '零信任',
+  '云安全',
+  '密码应用',
+  '终端安全',
+  '网络安全',
+]
+
+export const regionFullNames: Record<string, string> = {
+  浙江: '浙江省',
+  杭州: '杭州市',
+  宁波: '宁波市',
+  温州: '温州市',
+  绍兴: '绍兴市',
+  湖州: '湖州市',
+  嘉兴: '嘉兴市',
+  金华: '金华市',
+  台州: '台州市',
+  衢州: '衢州市',
+  舟山: '舟山市',
+  丽水: '丽水市',
+}
