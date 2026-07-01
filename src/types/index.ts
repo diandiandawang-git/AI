@@ -31,7 +31,7 @@ export interface FilterState {
 }
 
 export interface ChartData {
-  name: string
+  name?: string
   value?: number
   amount?: number
   [key: string]: string | number | undefined
@@ -44,6 +44,18 @@ export interface ReportSection {
   description?: string
   insights?: string[]
   suggestions?: string[]
+}
+
+export type AnalysisIntent = 'competition' | 'opportunity' | 'trend' | 'customer' | 'budget' | 'comprehensive'
+
+export interface ParsedIntent {
+  regions: string[]
+  industries: string[]
+  timeRange: string
+  productTypes: string[]
+  intents: AnalysisIntent[]
+  competitors: string[]
+  rawText: string
 }
 
 export interface CustomQuery {
@@ -62,3 +74,38 @@ export interface CustomQuery {
 }
 
 export type PageType = 'import' | 'default' | 'custom'
+
+export interface ScoredBid {
+  record: BidRecord
+  score: number
+  maxScore: number
+  details: {
+    budgetScore: number
+    productScore: number
+    competitorScore: number
+    timingScore: number
+    buyerScore: number
+  }
+  reason: string
+}
+
+export interface CompetitorCard {
+  name: string
+  winCount: number
+  winAmount: number
+  avgBidSize: number
+  topIndustries: { name: string; count: number }[]
+  topCities: { name: string; count: number }[]
+  topProducts: { name: string; count: number }[]
+  winRate: number
+  strategy: string
+}
+
+export interface WinLossMatrix {
+  dimension: string
+  ahWins: number
+  ahAmount: number
+  total: number
+  totalAmount: number
+  winRate: number
+}

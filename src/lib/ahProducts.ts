@@ -45,6 +45,92 @@ export const competitorKeywords = [
   { name: '中国软件', alias: ['中软', '中国软件'] },
 ]
 
+export const competitorProfiles: Record<string, {
+  strengths: string[]
+  weaknesses: string[]
+  typicalPriceRange: [number, number]
+  coreProducts: string[]
+  primaryIndustries: string[]
+}> = {
+  '天融信': {
+    strengths: ['防火墙/边界安全市场份额领先', '政府行业客户基础深厚', '产品线全面覆盖等保合规'],
+    weaknesses: ['大数据安全/态势感知能力弱于安恒', '安全运营服务经验较少', '新一代人工智能安全产品布局慢'],
+    typicalPriceRange: [40, 300],
+    coreProducts: ['防火墙', '入侵检测', 'VPN'],
+    primaryIndustries: ['政府', '公安', '金融'],
+  },
+  '深信服': {
+    strengths: ['渠道覆盖广、代理商体系成熟', 'SaaS化安全产品领先', '中小企业市场品牌认知高'],
+    weaknesses: ['大型企业定制化能力弱', '数据安全产品线不完整', '等保测评并非核心业务'],
+    typicalPriceRange: [20, 200],
+    coreProducts: ['WAF', '上网行为管理', '超融合'],
+    primaryIndustries: ['企业', '教育', '医疗'],
+  },
+  '奇安信': {
+    strengths: ['国家级安全项目经验丰富', '冬奥等大型赛事安全运营', '威胁情报与态势感知品牌强'],
+    weaknesses: ['产品售价偏高', '中小客户覆盖不足', '浙江本地化团队较弱'],
+    typicalPriceRange: [50, 500],
+    coreProducts: ['态势感知', '终端安全', '大数据安全'],
+    primaryIndustries: ['政府', '金融', '运营商'],
+  },
+  '启明星辰': {
+    strengths: ['安全管理平台与等保合规经验丰富', '军队/公安行业渠道深', '堡垒机/运维安全有优势'],
+    weaknesses: ['创新速度慢', '云安全布局少', '安全数据分析能力一般'],
+    typicalPriceRange: [30, 250],
+    coreProducts: ['IDS/IPS', '安全管理平台', '堡垒机'],
+    primaryIndustries: ['公安', '国防', '政府'],
+  },
+  '绿盟科技': {
+    strengths: ['Web安全产品口碑好', '安全服务经验丰富', '攻击检测技术领先'],
+    weaknesses: ['整体解决方案能力弱', '渠道体系不如深信服', '大数据安全平台成熟度低'],
+    typicalPriceRange: [25, 220],
+    coreProducts: ['WAF', '漏洞扫描', '抗DDoS'],
+    primaryIndustries: ['金融', '运营商', '政府'],
+  },
+  '华为': {
+    strengths: ['ICT整体方案能力强', '品牌溢价高', '政企大客户资源丰富'],
+    weaknesses: ['安全非核心业务线', '产品灵活性不足', '服务响应较慢'],
+    typicalPriceRange: [100, 1000],
+    coreProducts: ['防火墙', '态势感知', '终端安全'],
+    primaryIndustries: ['政府', '金融', '运营商'],
+  },
+  '新华三': {
+    strengths: ['网络设备+安全打包优势', '教育/医疗行业渗透深', '本地化服务覆盖广'],
+    weaknesses: ['安全独立品牌力弱', '产品创新跟随策略', '安全运营服务刚起步'],
+    typicalPriceRange: [30, 400],
+    coreProducts: ['防火墙', 'WAF', '态势感知'],
+    primaryIndustries: ['教育', '医疗', '政府'],
+  },
+  '中国电信': {
+    strengths: ['央企背书公信力强', '线路+安全打包销售', '地市级覆盖最深'],
+    weaknesses: ['安全产品自研能力弱', '多采用OEM/集成模式', '响应速度慢'],
+    typicalPriceRange: [20, 200],
+    coreProducts: ['安全运维服务', '等保测评', '云安全'],
+    primaryIndustries: ['政府', '教育', '医疗'],
+  },
+  '中国移动': {
+    strengths: ['5G+安全场景先发', '移动政务客户资源', '预算充足低价竞标'],
+    weaknesses: ['安全能力以集成为主', '自主产品成熟度低', '非核心安全厂商'],
+    typicalPriceRange: [20, 300],
+    coreProducts: ['安全运维服务', '等保测评', '云安全'],
+    primaryIndustries: ['政府', '教育', '公安'],
+  },
+  '中国联通': {
+    strengths: ['本地化服务团队', '价格灵活', '政企关系'],
+    weaknesses: ['安全技术能力弱', '核心安全产品欠缺', '多以总包集成身份出现'],
+    typicalPriceRange: [15, 180],
+    coreProducts: ['安全运维服务', '等保测评'],
+    primaryIndustries: ['政府', '企业'],
+  },
+  '中国软件': {
+    strengths: ['系统集成总包能力强', '政府大项目优先入围', '资质齐全'],
+    weaknesses: ['安全非核心业务', '多作为总包再分包安全', '利润率要求低'],
+    typicalPriceRange: [50, 800],
+    coreProducts: ['系统集成', '等保测评', '安全运维'],
+    primaryIndustries: ['政府', '金融', '交通'],
+  },
+}
+
 export const advantageKeywords = [
   '态势感知',
   '安全运营',

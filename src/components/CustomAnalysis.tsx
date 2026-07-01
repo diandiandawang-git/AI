@@ -1,16 +1,34 @@
 import { useState, useMemo, useEffect } from 'react'
-import { MessageSquare, History, Sparkles, Send, Trash2 } from 'lucide-react'
-import type { BidRecord, CustomQuery, ReportSection } from '../types'
+import { MessageSquare, History, Sparkles, Send, Trash2, Target, Shield, TrendingUp, Users, DollarSign, Compass } from 'lucide-react'
+import type { BidRecord, CustomQuery, ReportSection, AnalysisIntent } from '../types'
 import { generateCustomReport, parseCustomQuery, filterByDimensions } from '../lib/analyzer'
 import { BarChartCard, PieChartCard, TableCard } from './Charts'
 import { ExportButtons } from './ExportButtons'
 
 const EXAMPLE_QUERIES = [
   '分析浙江省医疗行业近三个月的安全服务类标讯竞争格局及安恒机会点',
-  '杭州市政府行业近半年等保测评项目市场分布与潜在客户',
-  '浙江省金融行业数据安全类产品中标情况与竞争对手分析',
-  '温州市网络安全类项目预算规模与采购单位类型',
+  '杭州市和宁波市政府行业等保测评和网络安全类项目预算分布与客户画像',
+  '浙江省金融行业数据安全与态势感知类中标情况，分析天融信和深信服的竞争策略',
+  '温州市近半年终端安全与等保测评趋势，识别安恒可切入的商机与潜在客户',
 ]
+
+const INTENT_ICONS: Record<AnalysisIntent, React.ReactNode> = {
+  competition: <Shield size={14} />,
+  opportunity: <Target size={14} />,
+  trend: <TrendingUp size={14} />,
+  customer: <Users size={14} />,
+  budget: <DollarSign size={14} />,
+  comprehensive: <Compass size={14} />,
+}
+
+const INTENT_LABELS: Record<AnalysisIntent, string> = {
+  competition: '竞争格局',
+  opportunity: '机会识别',
+  trend: '趋势分析',
+  customer: '客户画像',
+  budget: '预算规模',
+  comprehensive: '综合评估',
+}
 
 export function CustomAnalysis({ records }: { records: BidRecord[] }) {
   const [input, setInput] = useState('')
@@ -29,11 +47,18 @@ export function CustomAnalysis({ records }: { records: BidRecord[] }) {
   const runQuery = (text: string) => {
     if (!text.trim()) return
     setLoading(true)
-    // simulate analysis latency
     setTimeout(() => {
-      const dims = parseCustomQuery(text)
-      const filtered = filterByDimensions(records, dims)
-      const sections = generateCustomReport(filtered, text)
+      const sections = generateCustomReport(records, text)
+      const intent = parseCustomQuery(text)
+      // 兼容旧的 dims 结构
+      const dims: CustomQuery['dimensions'] = {
+        region: intent.regions[0],
+        industry: intent.industries[0],
+        timeRange: intent.timeRange,
+        productType: intent.productTypes[0],
+        perspective: intent.intents[0],
+        competitor: intent.competitors[0],
+      }
       const query: CustomQuery = {
         id: Date.now().toString(),
         text,
@@ -60,13 +85,33 @@ export function CustomAnalysis({ records }: { records: BidRecord[] }) {
   }, [currentQuery, records])
 
   const renderSection = (section: ReportSection, idx: number) => {
+    const isSwot = section.title.includes('SWOT')
+    const isAction = section.title.includes('行动清单')
     return (
-      <div key={idx} className="bg-gray-900 border border-gray-800 rounded-2xl p-6">
-        <h3 className="text-lg font-semibold text-white mb-3">{section.title}</h3>
-        {section.description && <p className="text-gray-300 mb-4 text-sm leading-relaxed">{section.description}</p>}
+      <div key={idx} className={`bg-gray-900 border ${isSwot ? 'border-purple-700/40' : isAction ? 'border-green-700/40' : 'border-gray-800'} rounded-2xl p-6`}>
+        <h3 className={`text-lg font-semibold mb-3 ${isSwot ? 'text-purple-300' : isAction ? 'text-green-300' : 'text-white'}`}>
+          {section.title}
+        </h3>
+        {section.description && (
+          <div
+            className={`text-gray-300 mb-4 text-sm leading-relaxed ${section.type === 'text' ? 'whitespace-pre-line' : ''}`}
+            dangerouslySetInnerHTML={
+              section.type === 'text'
+                ? { __html: section.description.replace(/\n/g, '<br/>') }
+                : undefined
+            }
+          >
+            {section.type !== 'text' ? section.description : undefined}
+          </div>
+        )}
         {section.type === 'bar' && section.data && <BarChartCard data={section.data} valueKey="value" amountKey="amount" />}
         {section.type === 'pie' && section.data && <PieChartCard data={section.data} />}
         {section.type === 'table' && section.data && <TableCard data={section.data} />}
+        {section.type === 'line' && section.data && (
+          <div className="h-72 w-full">
+            <BarChartCard data={section.data} valueKey="value" amountKey="amount" />
+          </div>
+        )}
         {section.type === 'summary' && section.insights && (
           <ul className="space-y-2">
             {section.insights.map((ins, i) => (
@@ -74,7 +119,7 @@ export function CustomAnalysis({ records }: { records: BidRecord[] }) {
             ))}
           </ul>
         )}
-        {section.insights && section.type !== 'summary' && (
+        {section.insights && (section.type === 'bar' || section.type === 'pie' || section.type === 'table' || section.type === 'text') && (
           <div className="mt-4">
             <div className="text-sm font-medium text-gray-200 mb-2">市场洞察</div>
             <ul className="space-y-1">
@@ -188,16 +233,56 @@ export function CustomAnalysis({ records }: { records: BidRecord[] }) {
           {currentQuery && (
             <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4">
               <h3 className="text-white font-medium mb-2">已识别维度</h3>
-              <div className="space-y-2 text-sm">
-                {Object.entries(currentQuery.dimensions)
-                  .filter(([, v]) => v)
-                  .map(([k, v]) => (
-                    <div key={k} className="flex justify-between">
-                      <span className="text-gray-500">{k}</span>
-                      <span className="text-purple-300">{v}</span>
-                    </div>
-                  ))}
-              </div>
+              {(() => {
+                const intent = parseCustomQuery(currentQuery.text)
+                return (
+                  <div className="space-y-3 text-sm">
+                    {intent.intents.length > 0 && (
+                      <div>
+                        <div className="text-gray-500 text-xs mb-1.5">分析意图</div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {intent.intents.map((i) => (
+                            <span key={i} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-purple-900/50 border border-purple-700/50 text-purple-300 text-xs">
+                              {INTENT_ICONS[i]}
+                              {INTENT_LABELS[i]}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {intent.regions.length > 0 && (
+                      <div>
+                        <span className="text-gray-500 text-xs">地域</span>
+                        <div className="text-purple-300 mt-0.5">{intent.regions.join('、')}</div>
+                      </div>
+                    )}
+                    {intent.industries.length > 0 && (
+                      <div>
+                        <span className="text-gray-500 text-xs">行业</span>
+                        <div className="text-purple-300 mt-0.5">{intent.industries.join('、')}</div>
+                      </div>
+                    )}
+                    {intent.timeRange && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-500">时间</span>
+                        <span className="text-purple-300">{intent.timeRange}</span>
+                      </div>
+                    )}
+                    {intent.productTypes.length > 0 && (
+                      <div>
+                        <span className="text-gray-500 text-xs">产品类型</span>
+                        <div className="text-purple-300 mt-0.5">{intent.productTypes.join('、')}</div>
+                      </div>
+                    )}
+                    {intent.competitors.length > 0 && (
+                      <div>
+                        <span className="text-gray-500 text-xs">竞对关注</span>
+                        <div className="text-purple-300 mt-0.5">{intent.competitors.join('、')}</div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })()}
               <div className="mt-3 pt-3 border-t border-gray-800 text-sm text-gray-400">
                 命中标讯：{filteredCount} 条
               </div>
